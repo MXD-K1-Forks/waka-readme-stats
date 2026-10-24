@@ -150,7 +150,18 @@ class GitHubManager:
         Uses commit author, commit message and branch name specified by environmental variables.
         """
         DBM.i("Updating README...")
-        readme_path = join(GitHubManager.REPO.working_tree_dir, GitHubManager.REMOTE.get_readme().path)
+        if EM.TARGET_FILE:
+            file = EM.TARGET_FILE
+        else:
+            file = GitHubManager.REMOTE.get_readme().path
+
+        readme_path = join(GitHubManager.REPO.working_tree_dir, file)
+
+        try:
+            with open(readme_path, "r"):
+                pass
+        except FileNotFoundError as e:
+            raise FileNotFoundError("The TARGET_FILE doesn't exist.") from e
 
         with open(readme_path, "r") as readme_file:
             readme_contents = readme_file.read()
@@ -162,6 +173,7 @@ class GitHubManager:
 
         GitHubManager.REPO.git.add(readme_path)
         DBM.g("README updated!")
+        DBM.g("Changes has been written to $file", file=file)
 
     @staticmethod
     def update_chart(name: str, path: str) -> str:

@@ -83,3 +83,5 @@ class EnvironmentManager:
 
     DEBUG_LOGGING = getenv("INPUT_DEBUG_LOGGING", "0").lower() in _TRUTHY
     DEBUG_RUN = getenv("DEBUG_RUN", "False").lower() in _TRUTHY
+
+    TARGET_FILE = getenv("INPUT_TARGET_FILE", "").strip()

@@ -217,6 +217,11 @@ inputs:
     description: "Whether to enable action debug logging"
     default: ${{ runner.debug }}
 
+  TARGET_FILE:
+    required: false
+    description: "The file to write the stats into"
+    default: ""
+
 runs:
   using: 'docker'
   image: 'docker://wakareadmestats/waka-readme-stats:master'
